@@ -15,23 +15,51 @@ public class MyStack
     private int[] stack;
     private int top = 0;
     
-    public MyStack(int maxSize){
+    public MyStack(int maxSize) {
         stack = new int[maxSize];
     }
     
-    public void push(int element){
+    public void push(int element) {
         stack[top] = element;
         top++;
     }
     
-    public int pop(){
-        top--;
-        return stack[top+1];
+    public int pop() {
+        if(top>0){
+            top--;
+            return stack[top];
+        } else {
+            return 0;
+        }
     }
     
-    public String toString(){
+    public boolean isEmpty(){
+        if (top == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public int top(){
+        return stack[top-1];
+    }
+    
+    public int size(){
+        return top;
+    }
+    
+    public boolean isFull(){
+        if(top == stack.length - 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public String toString() {
         String str = stack[0] + "";
-        for(int i = 1; i<top; i++){
+        for (int i = 1; i < top; i++) {
             str += ", " + stack[i];
         }
         return str;
