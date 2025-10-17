@@ -46,7 +46,7 @@ public class MyStack
     }
     
     public boolean isFull(){
-        if(top == stack.length - 1){
+        if(top == stack.length){
             return true;
         } else {
             return false;
