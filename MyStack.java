@@ -25,12 +25,8 @@ public class MyStack
     }
     
     public int pop() {
-        if(top>0){
-            top--;
-            return stack[top];
-        } else {
-            return 0;
-        }
+        top--;
+        return stack[top];
     }
     
     public boolean isEmpty(){
