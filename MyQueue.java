@@ -10,6 +10,7 @@ public class MyQueue
     private int[] queue;
     private int front = 0;
     private int end = 0;
+    private boolean isOverflowed = false;
     
     public MyQueue(int maxSize) {
         queue = new int[maxSize];
@@ -25,12 +26,15 @@ public class MyQueue
         }
         front++;
         System.out.println("Front: " + front);
+        System.out.println("End: " + end);
     }
     
     public int dequeue() {
         if(front-end!=0){
             front--;
         }
+        System.out.println("Front: " + front);
+        System.out.println("End: " + end);
         return queue[front % (queue.length)];
     }
     
@@ -63,6 +67,10 @@ public class MyQueue
         for (int i = end + 1; i < front; i++) {
             str += ", " + queue[i % (queue.length)];
         }
-        return str;
+        if (front - end == 0) {
+            return "0";
+        } else {
+            return str;
+        }
     }
 }
