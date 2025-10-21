@@ -16,24 +16,22 @@ public class MyQueue
     }
     
     public void enqueue(int element) {
-        queue[front % (queue.length-1)] = element;
-        if (front == 2 * (queue.length-1)) {
-            front = queue.length-1;
+        queue[front % (queue.length)] = element;
+        if (front == 2 * (queue.length)) {
+            front = queue.length;
         }   
-        if (front >= queue.length - 1){
-            end = front % (queue.length - 1) + 1;
+        if (front >= queue.length){
+            end = front % (queue.length) + 1;
         }
         front++;
+        System.out.println("Front: " + front);
     }
     
-    public int dequeue() {  
-        if (front >= queue.length){
-            end = front % (queue.length-1) + 1;
-        } else {
-            end = 0;
+    public int dequeue() {
+        if(front-end!=0){
+            front--;
         }
-        front--;
-        return queue[front % (queue.length-1)];
+        return queue[front % (queue.length)];
     }
     
     public boolean isEmpty(){
@@ -61,9 +59,9 @@ public class MyQueue
     }
     
     public String toString() {
-        String str = queue[end% (queue.length-1)] + "";
+        String str = queue[end % (queue.length)] + "";
         for (int i = end + 1; i < front; i++) {
-            str += ", " + queue[i % (queue.length-1)];
+            str += ", " + queue[i % (queue.length)];
         }
         return str;
     }
