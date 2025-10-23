@@ -1,14 +1,18 @@
 import java.util.*;
 
-public class MyStack {
-    private int[] stack;
+public class MyStack<E> {
+    private E[] stack;
     private int top = 0;
     
-    public MyStack(int maxSize) {
-        stack = new int[maxSize];
+    public MyStack() {
+        stack = (E[]) new Object[100];
     }
     
-    public void push(int element) {
+    public MyStack(int maxSize) {
+        stack = (E[]) new Object[maxSize];
+    }
+    
+    public void push(E element) {
         if(isFull()) {
             throw new IllegalStateException();
         } else {
@@ -17,7 +21,7 @@ public class MyStack {
         }
     }
     
-    public int pop() {
+    public E pop() {
         if(isEmpty()) {
             throw new EmptyStackException();
         } else {
@@ -30,7 +34,7 @@ public class MyStack {
         return top == 0;
     }
     
-    public int top() {
+    public E top() {
         if(isEmpty()) {
             throw new EmptyStackException();
         } else {

@@ -1,8 +1,9 @@
 import java.util.*;
 public class Test
 {   
+    
     public static void testMyQueue(){
-        MyQueue queue = new MyQueue(5);
+        MyQueue<Integer> queue = new MyQueue<Integer>(5);
         try{
             System.out.println(queue.front());
         } catch(NoSuchElementException e) {
@@ -31,6 +32,26 @@ public class Test
             queue.dequeue();
             queue.enqueue(i);
             System.out.println(queue);
+        }
+        
+        MyQueue<String> queue1 = new MyQueue<String>(5);
+        
+        queue1.enqueue("Bananna");
+        System.out.println(queue1);
+        queue1.enqueue("Apple");
+        System.out.println(queue1);
+        queue1.enqueue("Cherry");
+        System.out.println(queue1);
+        queue1.enqueue("Watermelon");
+        System.out.println(queue1);
+        queue1.enqueue("Strawberry");
+        System.out.println(queue1);
+        for(int i = 0; i<100; i++){
+            int random = (int)(Math.random()*179);
+            String randomFruit = Fruits.fruitList[random];
+            queue1.dequeue();
+            queue1.enqueue(randomFruit);
+            System.out.println(queue1);
         }
     }
     

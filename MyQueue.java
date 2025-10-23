@@ -1,20 +1,20 @@
 import java.util.*;
 
-public class MyQueue {
-    private int[] queue;
+public class MyQueue<E> {
+    private E[] queue;
     private int front = 0;
     private int end = 0;
     private int count = 0;
     
     public MyQueue() {
-        queue = new int[100];
+        queue = (E[]) new Object[100];
     }
     
     public MyQueue(int maxSize) {
-        queue = new int[maxSize];
+        queue = (E[]) new Object[maxSize];
     }
     
-    public void enqueue(int element) {
+    public void enqueue(E element) {
         if(isFull()) {
             throw new IllegalStateException();
         } else {
@@ -24,7 +24,7 @@ public class MyQueue {
         }
     }
     
-    public int dequeue() {
+    public E dequeue() {
         if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
@@ -38,7 +38,7 @@ public class MyQueue {
         return count == 0;
     }
     
-    public int front() {
+    public E front() {
         if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
