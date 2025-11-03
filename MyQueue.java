@@ -1,9 +1,10 @@
+//1234512345123452134512345123451234521345123451234512345213451234512345123452134512345123451234521345123451234512345213
 import java.util.*;
 
 public class MyQueue<E> {
     private E[] queue;
-    private int front = 0;
-    private int end = 0;
+    private int front = 0; //points to location of next in
+    private int end = 0; //points to location of last element out
     private int count = 0;
     
     public MyQueue() {
@@ -42,7 +43,7 @@ public class MyQueue<E> {
         if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            return queue[front];
+            return queue[(front+queue.length-1) % queue.length];
         }  
     }
     

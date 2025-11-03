@@ -3,7 +3,7 @@ public class Test
 {   
     
     public static void testMyQueue(){
-        MyQueue<Integer> queue = new MyQueue<Integer>(5);
+        MyQueue<Integer> queue = new MyQueue<Integer>(4);
         try{
             System.out.println(queue.front());
         } catch(NoSuchElementException e) {
@@ -20,8 +20,6 @@ public class Test
         System.out.println(queue);
         queue.enqueue(4);
         System.out.println(queue);
-        queue.enqueue(5);
-        System.out.println(queue);
         try{
             queue.enqueue(6);
         } catch(IllegalStateException e) {
@@ -32,6 +30,7 @@ public class Test
             queue.dequeue();
             queue.enqueue(i);
             System.out.println(queue);
+            System.out.println(queue.front());
         }
         
         MyQueue<String> queue1 = new MyQueue<String>(5);
@@ -44,9 +43,7 @@ public class Test
         System.out.println(queue1);
         queue1.enqueue("Watermelon");
         System.out.println(queue1);
-        queue1.enqueue("Strawberry");
-        System.out.println(queue1);
-        for(int i = 0; i<100; i++){
+        for(int i = 0; i<50; i++){
             int random = (int)(Math.random()*179);
             String randomFruit = Fruits.fruitList[random];
             queue1.dequeue();
@@ -102,6 +99,10 @@ public class Test
         System.out.println("Size: " + stack.size());
         System.out.println("Is Empty: " + stack.isEmpty());
         System.out.println("Is Full: " + stack.isFull());
+    }
+    
+    public static void testMyLinkedList(){
+        
     }
     
 }
