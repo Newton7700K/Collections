@@ -13,6 +13,7 @@ public class Test
         MyStack stack6 = new MyStack(5);
         
         //––––––––––––––––––––––––––––––––––Testing push–––––––––––––––––––––––––––––––––|
+        
         System.out.println("Testing push:");
         boolean threwError1 = false;
         boolean threwError2 = false;
@@ -280,8 +281,6 @@ public class Test
         System.out.println("IsFull: " + largeStack.isFull());
         System.out.println("Top: " + largeStack.top());
         System.out.println("Size: " + largeStack.size());
-        
-        
     }
     
     public static void testMyQueue(){
