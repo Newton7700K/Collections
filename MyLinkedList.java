@@ -4,12 +4,6 @@ public class MyLinkedList<E>
     private Node<E> head;
     private Node<E> tail;
     
-        
-    public MyLinkedList(E value) {
-        addHead(value);
-        tail = head;
-    }
-    
     public void addTail(E element) {
         Node currentNode = new Node(element, tail);
         tail.setNext(currentNode);
@@ -23,7 +17,7 @@ public class MyLinkedList<E>
     
     public E removeHead(){
         E element = head.getElement();
-        head = head;
+        head = head.getNext();
         return element;
     }
     
@@ -50,6 +44,7 @@ public class MyLinkedList<E>
         String str = "";
         if(currentNode != null){
             str += currentNode.getElement();
+            currentNode = currentNode.getNext();
         }
         while(currentNode != null){
             str += ", " + currentNode.getElement();
