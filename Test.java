@@ -408,14 +408,14 @@ public class Test
         
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError1 = true;
         }
         
         stack2.dequeue();
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError2 = true;
         }
         
@@ -423,7 +423,7 @@ public class Test
         stack3.dequeue();
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError3 = true;
         }
         
@@ -432,7 +432,7 @@ public class Test
         stack4.dequeue();
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError4 = true;
         }
         
@@ -442,7 +442,7 @@ public class Test
         stack5.dequeue();
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError5 = true;
         }
         
@@ -453,7 +453,7 @@ public class Test
         stack6.dequeue();
         try {
             stack1.dequeue();
-        } catch(EmptyStackException E) {
+        } catch(NoSuchElementException E) {
             threwError6 = true;
         }
         
@@ -495,7 +495,7 @@ public class Test
         
         try {
             stack1.front();
-        } catch (EmptyStackException E) {
+        } catch (NoSuchElementException E) {
             threwFrontError = true;
         }
         
@@ -573,7 +573,118 @@ public class Test
     }
     
     public static void testMyLinkedList(){
+        //–––––––––––––––––––––––––––––Creating LinkedLists––––––––––––––––––––––––––––––|
+        MyLinkedList list1 = new MyLinkedList();
+        MyLinkedList list2 = new MyLinkedList();
+        MyLinkedList list3 = new MyLinkedList();
         
+        //–––––––––––––––––––––––––––––––Testing addHead––––––––––––--–––––––––––––––––––|
+        System.out.println("Testing addHead: ");
+        list1.addHead(0);
+        for(int i = 0; i<10000; i++){
+            list2.addHead(i);
+        }
+        for(int i = 0 ; i<100000; i++){
+            list3.addHead(i);
+        }
+        System.out.println();
+        //–––––––––––––––––––––––––––––––Testing getHead––––––––––––--–––––––––––––––––––|
+        System.out.print("Testing getHead: ");
+        System.out.print(list1.getHead().equals(0) ? "pass " : "fail ");
+        System.out.print(list2.getHead().equals(9999) ? "pass " : "fail ");
+        System.out.println(list3.getHead().equals(99999) ? "pass " : "fail ");
+        
+        
+        System.out.println();
+        //–––––––––––––––––––––––––––––––––Testing size––––––––––––--––––––––––––––––––––|
+        System.out.print("Testing Size: ");
+        System.out.print(list1.size() == 1 ? "pass " : "fail ");
+        System.out.print(list2.size() == 10000 ? "pass " : "fail ");
+        System.out.println(list3.size() == 100000 ? "pass " : "fail ");
+        System.out.println();
+        
+        //–––––––––––––––––––––––––––––––Testing toString––––––––––––--––––––––––––––––––|
+        System.out.print("Testing toString: ");
+        System.out.print(list1.toString().equals("0") ? "pass " : "fail ");
+        String test1 = "9999";
+        for(int i = 9998; i>=0; i--){
+            test1 += ", " + i;
+        }
+        System.out.print(list2.toString().equals(test1) ? "pass " : "fail ");
+        String test2 = "99999";
+        for(int i = 99998; i>=0; i--){
+            test2 += ", " + i;
+        }
+        System.out.println(list3.toString().equals(test2) ? "pass " : "fail ");
+        System.out.println();
+        
+        //––––––––––––––––––––––––––––––Testing removeHead––––––––––––--–––––––––––––––––|
+        System.out.print("Testing removeHead: ");
+        list1.removeHead();
+        for(int i = 0; i<10000; i++){
+            list2.removeHead();
+        }
+        for(int i = 0 ; i<100000; i++){
+            list3.removeHead();
+        }
+        boolean try1 = false;
+        boolean try2 = false;
+        boolean try3 = false;
+        try{
+            list1.removeHead();
+        } catch (NoSuchElementException E) {
+            try1 = true;
+        }
+        try{
+            list2.removeHead();
+        } catch (NoSuchElementException E) {
+            try2 = true;
+        }
+        try{
+            list3.removeHead();
+        } catch (NoSuchElementException E) {
+            try3 = true;
+        }
+        
+        System.out.print(try1 ? "pass " : "fail ");
+        System.out.print(try2 ? "pass " : "fail ");
+        System.out.println(try3 ? "pass " : "fail ");
+        System.out.println();
+        //–––––––––––––––––––––––––––––––Testing isEmpty––––––––––––--–––––––––––––––––––|
+        System.out.print("Testing isEmpty: ");
+        System.out.print(list1.isEmpty() ? "pass " : "fail ");
+        System.out.print(list1.isEmpty() ? "pass " : "fail ");
+        System.out.println(list1.isEmpty() ? "pass " : "fail ");
+        System.out.println();
+        
+        System.out.print("Testing getHead throws error: ");
+        boolean tryGetHead1 = false;
+        boolean tryGetHead2 = false;
+        boolean tryGetHead3 = false;
+        try{ //runs 3 times for redundancy in case one of the lists isn't empty
+            list1.getHead();
+        } catch (NoSuchElementException E) {
+            tryGetHead1 = true;
+        }
+        try{
+            list2.getHead();
+        } catch (NoSuchElementException E) {
+            tryGetHead2 = true;
+        }
+        try{
+            list3.getHead();
+        } catch (NoSuchElementException E) {
+            tryGetHead3 = true;
+        }
+        System.out.print(tryGetHead1 ? "pass " : "fail ");
+        System.out.print(tryGetHead2 ? "pass " : "fail ");
+        System.out.println(tryGetHead3 ? "pass " : "fail ");
+        System.out.println();
+        
+        //–––––––––––––––––––––––––––––––Testing addTail––––––––––––--–––––––––––––––––––|
+        
+        //–––––––––––––––––––––––––––––––Testing addHead––––––––––––--–––––––––––––––––––|
+
     }
     
 }

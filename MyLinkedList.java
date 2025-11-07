@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MyLinkedList<E>
 {
     
@@ -16,13 +18,21 @@ public class MyLinkedList<E>
     }
     
     public E removeHead(){
-        E element = head.getElement();
-        head = head.getNext();
-        return element;
+        if(isEmpty()) {
+            throw new NoSuchElementException();
+        } else {
+            E element = head.getElement();
+            head = head.getNext();
+            return element;
+        }
     }
     
     public E getHead(){
-        return head.getElement();
+        if(isEmpty()) {
+            throw new NoSuchElementException();
+        } else {
+            return head.getElement();
+        }
     }
     
     public boolean isEmpty(){

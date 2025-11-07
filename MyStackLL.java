@@ -12,11 +12,7 @@ public class MyStackLL<E> {
     }
     
     public E pop() {
-        if(isEmpty()) {
-            throw new EmptyStackException();
-        } else {
-            return list.removeHead();
-        }
+        return list.removeHead();
     }
     
     public boolean isEmpty() {
@@ -24,11 +20,7 @@ public class MyStackLL<E> {
     }
     
     public E top() {
-        if(isEmpty()) {
-            throw new EmptyStackException();
-        } else {
-            return list.getHead();
-        }
+        return list.getHead();
     }
     
     public int size() {

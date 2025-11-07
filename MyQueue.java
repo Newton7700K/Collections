@@ -58,10 +58,10 @@ public class MyQueue<E> {
     public String toString() {
         String str = "";
         if(!isEmpty()) {
-            str += queue[end];
-        }
-        for (int i = end + 1; i < end + count; i++) {
-            str += ", " + queue[i % queue.length];
+            str += queue[end + count - 1];
+            for (int i = end + count - 2; i >= end; i--) {
+                str += ", " + queue[i % queue.length];
+            }
         }
         return str;
     }
