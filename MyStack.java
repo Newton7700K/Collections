@@ -53,9 +53,9 @@ public class MyStack<E> {
     public String toString() {
         String str = "";
         if(!isEmpty()) {
-            str += stack[top-1];
+            str += stack[top - 1];
         }
-        for (int i = top-2; i >= 0; i--) {
+        for (int i = top - 2; i >= 0; i--) {
             str += ", " + stack[i];
         }
         return str;
