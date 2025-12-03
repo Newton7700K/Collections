@@ -3,8 +3,8 @@ import java.util.*;
 
 public class MyQueue<E> {
     private E[] queue;
-    private int front = 0; //points to location of next in
-    private int end = 0; //points to location of last element out
+    private int end = 0; //points to location of next in
+    private int front = 0; //points to location of last element out
     private int count = 0;
     
     public MyQueue() {
@@ -19,8 +19,8 @@ public class MyQueue<E> {
         if(isFull()) {
             throw new IllegalStateException();
         } else {
-            queue[front] = element;
-            front = (front + 1) % queue.length;
+            queue[end] = element;
+            end = (end + 1) % queue.length;
             count++;
         }
     }
@@ -29,9 +29,9 @@ public class MyQueue<E> {
         if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            end = (end + 1) % queue.length;
+            front = (front + 1) % queue.length;
             count--;
-            return queue[end];
+            return queue[front-1];
         }       
     }
     
@@ -43,7 +43,7 @@ public class MyQueue<E> {
         if(isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            return queue[(front+queue.length-1) % queue.length];
+            return queue[(front+queue.length) % queue.length];
         }  
     }
     
@@ -58,9 +58,9 @@ public class MyQueue<E> {
     public String toString() {
         String str = "";
         if(!isEmpty()) {
-            str += queue[end + count - 1];
-            for (int i = end + count - 2; i >= end; i--) {
-                str += ", " + queue[i % queue.length];
+            str += queue[front];
+            for (int i = front + 1; i < end; i++) {
+                str += ", " + queue[i];
             }
         }
         return str;

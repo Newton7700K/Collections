@@ -31,8 +31,13 @@ public class MyRobustLinkedList<E>
             throw new NoSuchElementException();
         } else {
             E element = head.getElement();
-            head = head.getNext();
-            head.setPrev(null);
+            if(size() == 1){ //is last element
+                head = null;
+                tail = null;
+            } else {
+                head = head.getNext();
+                head.setPrev(null);
+            }
             return element;
         }
     }

@@ -694,7 +694,6 @@ public class Test
         MyRobustLinkedList list3 = new MyRobustLinkedList();
         
         //–––––––––––––––––––––––––––––––Testing addHead––––––––––––--–––––––––––––––––––|
-        System.out.println("Testing addHead: ");
         list1.addHead(0);
         for(int i = 0; i<10000; i++){
             list2.addHead(i);
