@@ -5,6 +5,7 @@ public class MyRobustLinkedList<E>
     
     private Node<E> head;
     private Node<E> tail;
+    private int count;
     
     public void addTail(E element) {
         Node newNode = new Node(element, null, tail);
@@ -13,6 +14,7 @@ public class MyRobustLinkedList<E>
         } else {
             head = newNode;
         }
+        count++;
         tail = newNode;
     }
     
@@ -23,7 +25,40 @@ public class MyRobustLinkedList<E>
         } else {
             tail = newNode;
         }
+        count++;
         head = newNode;
+    }
+    
+    public Node<E> getNode(int index) {
+        Node<E> pointer;
+        if(index > size()){
+            pointer = tail;
+            for(int i = size() - 1; i > index; i--){
+                pointer = pointer.getPrev();
+            }
+        } else {
+            pointer = head;
+            for(int i = 0; i < index; i++){
+                pointer = pointer.getPrev();
+            }
+        }
+        return pointer;
+    }
+    
+    public void add(E element) {
+        addTail(element);
+    }
+    
+    public void add(int index, E element) {
+        if(index == 1 || index == size() - 2){ 
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node<E> newNode = new Node<E>(element, getNode(index).getPrev(), 
+                    getNode(index).getNext());
+            getNode(index).getPrev().setNext(getNode(index));
+            getNode(index).getNext().setPrev(getNode(index));
+            
+        }
     }
     
     public E removeHead(){
@@ -38,6 +73,7 @@ public class MyRobustLinkedList<E>
                 head = head.getNext();
                 head.setPrev(null);
             }
+            count--;
             return element;
         }
     }
@@ -55,12 +91,6 @@ public class MyRobustLinkedList<E>
     }
     
     public int size(){
-        Node<E> currentNode = head;
-        int count = 0;
-        while(currentNode != null){
-            count++;
-            currentNode = currentNode.getNext();
-        }
         return count;
     }
     
