@@ -31,7 +31,7 @@ public class MyRobustLinkedList<E>
     
     public Node<E> getNode(int index) {
         Node<E> pointer;
-        if(index > size()){
+        if(index > size()/2){
             pointer = tail;
             for(int i = size() - 1; i > index; i--){
                 pointer = pointer.getPrev();
@@ -39,7 +39,7 @@ public class MyRobustLinkedList<E>
         } else {
             pointer = head;
             for(int i = 0; i < index; i++){
-                pointer = pointer.getPrev();
+                pointer = pointer.getNext();
             }
         }
         return pointer;
@@ -50,14 +50,60 @@ public class MyRobustLinkedList<E>
     }
     
     public void add(int index, E element) {
-        if(index == 1 || index == size() - 2){ 
+        if(index <= 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
         } else {
-            Node<E> newNode = new Node<E>(element, getNode(index).getPrev(), 
-                    getNode(index).getNext());
-            getNode(index).getPrev().setNext(getNode(index));
-            getNode(index).getNext().setPrev(getNode(index));
-            
+            Node<E> newNode = new Node<E>(element, getNode(index), 
+                    getNode(index).getPrev());
+            getNode(index).getPrev().setNext(newNode);
+            getNode(index).setPrev(newNode);
+            count++;
+        }
+    }
+    
+    public E get(int index){
+        if(index < 0 || index > size()){ 
+            throw new IndexOutOfBoundsException();
+        } else {
+            return getNode(index).getElement();
+        }
+    }
+    
+    public void set(int index, E element) {
+        if(index < 0 || index > size()){ 
+            throw new IndexOutOfBoundsException();
+        } else {
+            Node<E> newNode = new Node<E>(element, getNode(index), 
+                    getNode(index).getPrev());
+            if(newNode.getPrev()==null){
+                head = newNode;
+            } else {
+                getNode(index).getPrev().setNext(newNode);
+            }
+            if (newNode.getNext()==null){
+                tail = newNode;
+            } else {
+                getNode(index).getNext().setPrev(newNode);
+            }
+            if (count != 1){
+                count++;
+            }
+        }
+    }
+    
+    public void remove(int index) {
+        if(index < 0 || index > size()){ 
+            throw new IndexOutOfBoundsException();
+        } else {
+            if(getNode(index).getPrev()!=null){
+                getNode(index).getPrev().setNext(newNode);
+            }
+            if (newNode.getNext()!=null){
+                getNode(index).getNext().setPrev(newNode);
+            }
+            if (count != 1){
+                count++;
+            }
         }
     }
     
