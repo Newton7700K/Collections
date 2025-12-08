@@ -95,14 +95,14 @@ public class MyRobustLinkedList<E>
         if(index < 0 || index > size()){ 
             throw new IndexOutOfBoundsException();
         } else {
-            if(getNode(index).getPrev()!=null){
-                getNode(index).getPrev().setNext(newNode);
-            }
-            if (newNode.getNext()!=null){
-                getNode(index).getNext().setPrev(newNode);
-            }
             if (count != 1){
-                count++;
+                count--;
+            }
+            if(getNode(index).getPrev()!=null){
+                getNode(index).getPrev().setNext(getNode(index).getNext());
+            }
+            if (getNode(index).getNext()!=null){
+                getNode(index).getNext().setPrev(getNode(index).getPrev());
             }
         }
     }
@@ -121,6 +121,34 @@ public class MyRobustLinkedList<E>
             }
             count--;
             return element;
+        }
+    }
+    
+    int indexOf(E element) {
+        for (int i = 0; i<size(); i++) {
+            if(getNode(i).equals(element)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    int lastIndexOf(E element) {
+        int idx = -1;
+        for (int i = 0; i<size(); i++) {
+            if(getNode(i).equals(element)){
+                idx = i;
+            }
+        }
+        return idx;
+    }
+    
+    boolean remove(E element) {
+        if (indexOf(element) != -1) {
+            remove(indexOf(element));
+            return true;
+        } else {
+            return false;
         }
     }
     
