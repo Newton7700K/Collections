@@ -152,6 +152,18 @@ public class MyRobustLinkedList<E>
         }
     }
     
+    void insertSorted(E element) {
+        boolean lessThanThis = false;
+        int idx = 0;
+        while(lessThanThis && idx < size()){
+            if(getNode(idx).getElement().toString().compareTo(element.toString())>0){
+                lessThanThis = true;
+            }
+            idx++;
+        }
+        add(idx, element);
+    }
+    
     public E getHead(){
         if(isEmpty()) {
             throw new NoSuchElementException();
