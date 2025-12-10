@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MyRobustLinkedList<E>
+public class MyRobustLinkedList<E extends Comparable<E>>
 {
     
     private Node<E> head;
