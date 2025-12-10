@@ -6,7 +6,7 @@
  * @author Mr. Murphy
  * @version December 2025
  */
-public class ShowCharacter
+public class ShowCharacter implements Comparable<ShowCharacter>
 {
     private String firstName;
     private String lastName;
