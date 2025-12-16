@@ -156,7 +156,7 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         boolean lessThanThis = false;
         int idx = 0;
         while(lessThanThis && idx < size()){
-            if(getNode(idx).getElement().toString().compareTo(element.toString())>0){
+            if(getNode(idx).getElement().compareTo(element)>0){
                 lessThanThis = true;
             }
             idx++;
