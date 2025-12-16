@@ -7,8 +7,8 @@ public class MyLinkedList<E>
     private Node<E> tail;
     
     public void addTail(E element) {
-        Node currentNode = new Node(element, tail);
-        tail.setNext(currentNode);
+        Node currentNode = new Node(element, null);
+        tail.setNext(currentNode); //fix this
         tail = currentNode;
     }
     

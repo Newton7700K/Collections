@@ -53,7 +53,7 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         if(index <= 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
         } else {
-            Node<E> newNode = new Node<E>(element, getNode(index), 
+            Node<E> newNode = new Node<E>(element, getNode(index),
                     getNode(index).getPrev());
             getNode(index).getPrev().setNext(newNode);
             getNode(index).setPrev(newNode);
@@ -153,15 +153,22 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     }
     
     void insertSorted(E element) {
-        boolean lessThanThis = false;
+        boolean lessThanThis = true;
         int idx = 0;
         while(lessThanThis && idx < size()){
-            if(getNode(idx).getElement().compareTo(element)>0){
-                lessThanThis = true;
+            if(getNode(idx).getElement().compareTo(element)>=0){
+                lessThanThis = false;
+            } else {
+                idx++;
             }
-            idx++;
         }
-        add(idx, element);
+        if (idx == 0) {
+            addHead(element);
+        } else if(idx >= size()) {
+            add(element);
+        } else {
+            add(idx, element);
+        }
     }
     
     public E getHead(){

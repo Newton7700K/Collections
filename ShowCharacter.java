@@ -28,8 +28,38 @@ public class ShowCharacter implements Comparable<ShowCharacter>
         this.actorName = actorName;
     }
     
+    public String getLastName(){
+        return lastName;
+    }
+    
+    public String getFirstName(){
+        return firstName;
+    }
+    
+    public String getActorName(){
+        return actorName;
+    }
+    
+    public String getShowTitle(){
+        return showTitle;
+    }
+    
+    public boolean equals(ShowCharacter character){
+        return toString().equals(character.toString());
+    }
+    
     public int compareTo(ShowCharacter character){
-        return toString().compareTo(character.toString());
+        if(!lastName.equals(character.getLastName())){
+            return this.lastName.compareTo(character.lastName);
+        } else if (!firstName.equals(character.getFirstName())) {
+            return this.firstName.compareTo(character.firstName);
+        } else if (!actorName.equals(character.getActorName())) {
+            return this.actorName.compareTo(character.actorName);
+        } else if (!showTitle.equals(character.getShowTitle())) {
+            return this.showTitle.compareTo(character.showTitle);
+        } else {
+            return 0;
+        }
     }
     
     /**
