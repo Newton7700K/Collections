@@ -102,12 +102,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
-    public void remove(int index) {
+    public E remove(int index) {
         if(index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
         } else if (index == 0){
-            removeHead();
+            return removeHead();
         } else if (index == size() - 1) {
+            Node<E> currentNode = getNode(index);
             if (tail.getPrev() != null) {
                 tail = tail.getPrev();
                 tail.setNext(null);
@@ -116,11 +117,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
                 head = null;
             }
             count--;
+            return currentNode.getElement();
         } else {
             Node<E> currentNode = getNode(index);
             currentNode.getPrev().setNext(currentNode.getNext());
             currentNode.getNext().setPrev(currentNode.getPrev());
             count--;
+            return currentNode.getElement();
         }
     }
     

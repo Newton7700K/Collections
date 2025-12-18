@@ -1,7 +1,7 @@
 
 public class Applications
 {
-    public static <E> void reverse(MyQueue<E> queue){
+    public static <E> void reverse(MyQueueLL<E> queue){
         MyStack<E> temp = new MyStack<E>(queue.size());
         while(!queue.isEmpty()){
             temp.push(queue.dequeue());

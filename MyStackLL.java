@@ -8,11 +8,15 @@ public class MyStackLL<E> {
     }
     
     public void push(E element) {
-        list.addHead(element);
+        list.addTail(element);
     }
     
     public E pop() {
-        return list.removeHead();
+        if(isEmpty()) {
+            throw new EmptyStackException();
+        } else {
+            return list.removeHead();
+        }    
     }
     
     public boolean isEmpty() {
@@ -20,7 +24,11 @@ public class MyStackLL<E> {
     }
     
     public E top() {
-        return list.getHead();
+        if(isEmpty()) {
+            throw new EmptyStackException();
+        } else {
+            return list.getHead();
+        }   
     }
     
     public int size() {
