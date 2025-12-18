@@ -5,30 +5,45 @@ public class MyLinkedList<E>
     
     private Node<E> head;
     private Node<E> tail;
+    private int count = 0;
     
     public void addTail(E element) {
-        Node currentNode = new Node(element, tail);
-        tail.setNext(currentNode);
-        tail = currentNode;
+        Node newNode = new Node(element, null);
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.setNext(newNode); //fix this
+            tail = newNode;
+        }
+        count++;
     }
     
     public void addHead(E element) {
-        Node currentNode = new Node(element, head);
-        head = currentNode;
+        Node newNode = new Node(element, null);
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode.setNext(head);
+            head = newNode;
+        }
+        count++;
     }
     
     public E removeHead(){
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new NoSuchElementException();
         } else {
             E element = head.getElement();
             head = head.getNext();
+            count--;
             return element;
         }
     }
     
     public E getHead(){
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new NoSuchElementException();
         } else {
             return head.getElement();
@@ -36,29 +51,23 @@ public class MyLinkedList<E>
     }
     
     public boolean isEmpty(){
-        return head == null && tail == null;
+        return count == 0;
     }
     
     public int size(){
-        Node<E> currentNode = head;
-        int count = 0;
-        while(currentNode != null){
-            count++;
-            currentNode = currentNode.getNext();
-        }
         return count;
     }
     
     public String toString(){
-        Node<E> currentNode = head;
+        Node<E> newNode = head;
         String str = "";
-        if(currentNode != null){
-            str += currentNode.getElement();
-            currentNode = currentNode.getNext();
+        if (newNode != null){
+            str += newNode.getElement();
+            newNode = newNode.getNext();
         }
-        while(currentNode != null){
-            str += ", " + currentNode.getElement();
-            currentNode = currentNode.getNext();
+        while (newNode != null){
+            str += ", " + newNode.getElement();
+            newNode = newNode.getNext();
         }
         return str;
     }

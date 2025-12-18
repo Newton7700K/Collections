@@ -5,44 +5,50 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     
     private Node<E> head;
     private Node<E> tail;
-    private int count;
+    private int count = 0;
     
     public void addTail(E element) {
-        Node newNode = new Node(element, null, tail);
-        if(!isEmpty()) {
-            tail.setNext(newNode);
-        } else {
+        Node newNode = new Node(element, null, null);
+        if(isEmpty()) {
             head = newNode;
+        } else {
+            newNode.setPrev(tail);
+            tail.setNext(newNode);
         }
         count++;
         tail = newNode;
     }
     
     public void addHead(E element) {
-        Node newNode = new Node(element, head, null);
-        if(!isEmpty()) {
-            head.setPrev(newNode);
-        } else {
+        Node newNode = new Node(element, null, null);
+        if(isEmpty()) {
             tail = newNode;
+        } else {
+            newNode.setNext(head);
+            head.setPrev(newNode);
         }
         count++;
         head = newNode;
     }
     
     public Node<E> getNode(int index) {
-        Node<E> pointer;
-        if(index > size()/2){
-            pointer = tail;
-            for(int i = size() - 1; i > index; i--){
-                pointer = pointer.getPrev();
-            }
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException();
         } else {
-            pointer = head;
-            for(int i = 0; i < index; i++){
-                pointer = pointer.getNext();
+            Node<E> pointer;
+            if(index > size()/2){
+                pointer = tail;
+                for(int i = size() - 1; i > index; i--){
+                    pointer = pointer.getPrev();
+                }
+            } else {
+                pointer = head;
+                for(int i = 0; i < index; i++){
+                    pointer = pointer.getNext();
+                }
             }
+            return pointer;
         }
-        return pointer;
     }
     
     public void add(E element) {
@@ -50,19 +56,22 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     }
     
     public void add(int index, E element) {
-        if(index <= 0 || index >= size()){ 
+        if(index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
+        } else if(index == 0) {
+            addHead(element);
         } else {
-            Node<E> newNode = new Node<E>(element, getNode(index), 
-                    getNode(index).getPrev());
-            getNode(index).getPrev().setNext(newNode);
-            getNode(index).setPrev(newNode);
+            Node<E> currentNode = getNode(index);
+            Node<E> newNode = new Node<E>(element, currentNode.getPrev(),
+                    currentNode);
+            currentNode.getPrev().setNext(newNode);
+            currentNode.setPrev(newNode);
             count++;
         }
     }
     
     public E get(int index){
-        if(index < 0 || index > size()){ 
+        if (index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
         } else {
             return getNode(index).getElement();
@@ -70,40 +79,48 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     }
     
     public void set(int index, E element) {
-        if(index < 0 || index > size()){ 
+        Node<E> newNode = new Node<E>(element, null, null);
+        Node<E> currentNode = getNode(index);
+        if (index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
-        } else {
-            Node<E> newNode = new Node<E>(element, getNode(index), 
-                    getNode(index).getPrev());
-            if(newNode.getPrev()==null){
+        } else if (index == 0) {
+            removeHead();
+            addHead(element);
+        } else if (index == size() - 1) {
+            if(tail.getPrev() != null){
+                tail.getPrev().setNext(newNode);
+                newNode.setPrev(tail.getPrev());
+            } else {
                 head = newNode;
-            } else {
-                getNode(index).getPrev().setNext(newNode);
             }
-            if (newNode.getNext()==null){
-                tail = newNode;
-            } else {
-                getNode(index).getNext().setPrev(newNode);
-            }
-            if (count != 1){
-                count++;
-            }
+            tail = newNode;
+        } else {
+            currentNode.getPrev().setNext(newNode);
+            newNode.setPrev(currentNode.getPrev());
+            currentNode.getNext().setPrev(newNode);
+            newNode.setNext(currentNode.getNext());
         }
     }
     
     public void remove(int index) {
-        if(index < 0 || index > size()){ 
+        if(index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
+        } else if (index == 0){
+            removeHead();
+        } else if (index == size() - 1) {
+            if (tail.getPrev() != null) {
+                tail = tail.getPrev();
+                tail.setNext(null);
+            } else {
+                tail = null;
+                head = null;
+            }
+            count--;
         } else {
-            if (count != 1){
-                count--;
-            }
-            if(getNode(index).getPrev()!=null){
-                getNode(index).getPrev().setNext(getNode(index).getNext());
-            }
-            if (getNode(index).getNext()!=null){
-                getNode(index).getNext().setPrev(getNode(index).getPrev());
-            }
+            Node<E> currentNode = getNode(index);
+            currentNode.getPrev().setNext(currentNode.getNext());
+            currentNode.getNext().setPrev(currentNode.getPrev());
+            count--;
         }
     }
     
@@ -126,7 +143,7 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     
     int indexOf(E element) {
         for (int i = 0; i<size(); i++) {
-            if(getNode(i).equals(element)){
+            if(getNode(i).getElement().equals(element)){
                 return i;
             }
         }
@@ -136,7 +153,7 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     int lastIndexOf(E element) {
         int idx = -1;
         for (int i = 0; i<size(); i++) {
-            if(getNode(i).equals(element)){
+            if(getNode(i).getElement().equals(element)){
                 idx = i;
             }
         }
@@ -153,15 +170,26 @@ public class MyRobustLinkedList<E extends Comparable<E>>
     }
     
     void insertSorted(E element) {
-        boolean lessThanThis = false;
-        int idx = 0;
-        while(lessThanThis && idx < size()){
-            if(getNode(idx).getElement().toString().compareTo(element.toString())>0){
-                lessThanThis = true;
+        if(isEmpty()){
+            throw new IndexOutOfBoundsException();
+        } else {
+            boolean lessThanCurrent = true;
+            int idx = 0;
+            while(lessThanCurrent && idx < size()){
+                if(getNode(idx).getElement().compareTo(element)>=0){
+                    lessThanCurrent = false;
+                } else {
+                    idx++;
+                }
             }
-            idx++;
+            if (idx == 0) {
+                addHead(element);
+            } else if(idx >= size()) {
+                add(element);
+            } else {
+                add(idx, element);
+            }
         }
-        add(idx, element);
     }
     
     public E getHead(){
@@ -200,10 +228,10 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         private Node next;
         private Node prev;
         
-        public Node(E element, Node next, Node prev) {
+        public Node(E element, Node prev, Node next) {
             this.element = element;
-            this.next = next;
             this.prev = prev;
+            this.next = next;
         }
         
         public E getElement() {
