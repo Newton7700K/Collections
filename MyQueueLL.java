@@ -9,7 +9,7 @@ public class MyQueueLL<E> {
     }
     
     public void enqueue(E element) {
-        list.addHead(element);
+        list.addTail(element);
     }
     
     public E dequeue() {
