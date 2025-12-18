@@ -63,25 +63,25 @@ public class MyLinkedList<E>
         return str;
     }
    
-   public class Node<E>
+   private class Node<E>
     {
         private E element;
         private Node next;
         
-        public Node(E value, Node next) {
+        private Node(E value, Node next) {
             this.element = value;
             this.next = next;
         }
         
-        public E getElement() {
+        private E getElement() {
             return element;
         }
         
-        public Node getNext(){
+        private Node getNext(){
             return next;
         }
         
-        public void setNext(Node next){
+        private void setNext(Node next){
             this.next = next;
         }
     }
