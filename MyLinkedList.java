@@ -12,6 +12,7 @@ public class MyLinkedList<E>
         if (isEmpty()) {
             head = newNode;
             tail = newNode;
+            
         } else {
             tail.setNext(newNode); //fix this
             tail = newNode;

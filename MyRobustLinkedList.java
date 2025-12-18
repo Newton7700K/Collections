@@ -1,12 +1,24 @@
 import java.util.*;
 
+/**
+ * Creates a doubly linked list data structure
+ * 
+ * @author Newton Zheng
+ * @version December 2025
+ * @param E type of element stored in list
+ */
+
 public class MyRobustLinkedList<E extends Comparable<E>>
 {
     
     private Node<E> head;
     private Node<E> tail;
     private int count = 0;
-    
+    /**
+     * Adds new node to the end of the linked list.
+     * 
+     * @param E element in node to be added
+     */
     public void addTail(E element) {
         Node newNode = new Node(element, null, null);
         if(isEmpty()) {
@@ -19,6 +31,11 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         tail = newNode;
     }
     
+    /**
+     * Adds new node to the beginning of the linked list.
+     * 
+     * @param E element in node to be added
+     */
     public void addHead(E element) {
         Node newNode = new Node(element, null, null);
         if(isEmpty()) {
@@ -31,6 +48,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         head = newNode;
     }
     
+    /**
+     * Returns node at specified index.
+     * 
+     * @param int index of node to be returned
+     * @returns Node<E> node at specified index
+     * @throws IndexOutOfBoundsException when index out of bounds
+     */
     public Node<E> getNode(int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
@@ -51,15 +75,29 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Adds node to the end of linked list.
+     * 
+     * @params E element in node to be added
+     */
     public void add(E element) {
         addTail(element);
     }
     
+    /**
+     * Adds node to specified index.
+     * 
+     * @param int index of node to be added
+     * @param E element in node to be added
+     * @throws IndexOutOfBoundsException when index out of bounds
+     */
     public void add(int index, E element) {
-        if(index < 0 || index >= size()){ 
+        if(index < 0 || index > size()){ 
             throw new IndexOutOfBoundsException();
         } else if(index == 0) {
             addHead(element);
+        } else if (index == size()) {
+            addTail(element);
         } else {
             Node<E> currentNode = getNode(index);
             Node<E> newNode = new Node<E>(element, currentNode.getPrev(),
@@ -70,6 +108,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Gets element at specified index.
+     * 
+     * @params int index of node to be returned
+     * @return E element to be returned at index
+     * @throws IndexOutOfBoundsException when index out of bounds
+     */
     public E get(int index){
         if (index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
@@ -78,6 +123,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Replaces node at given index with other node.
+     * 
+     * @param int index of node to be replaced
+     * @param E element in node to replace current node
+     * @throws IndexOutOfBoundsException when index out of bounds
+     */
     public void set(int index, E element) {
         Node<E> newNode = new Node<E>(element, null, null);
         Node<E> currentNode = getNode(index);
@@ -102,6 +154,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Removes node at given index.
+     * 
+     * @param int index of node to be removed
+     * @return E element removed
+     * @throws IndexOutOfBoundsException when index out of bounds
+     */
     public E remove(int index) {
         if(index < 0 || index >= size()){ 
             throw new IndexOutOfBoundsException();
@@ -127,6 +186,12 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Removes node at beginning of list.
+     * 
+     * @return E element in node
+     * @throws NoSuchElementException if list is empty
+     */
     public E removeHead(){
         if(isEmpty()) {
             throw new NoSuchElementException();
@@ -144,7 +209,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
-    int indexOf(E element) {
+    /**
+     * Returns first index of specified element.
+     * 
+     * @param E element to be found
+     * @return int index of found element
+     */
+    public int indexOf(E element) {
         for (int i = 0; i<size(); i++) {
             if(getNode(i).getElement().equals(element)){
                 return i;
@@ -153,7 +224,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         return -1;
     }
     
-    int lastIndexOf(E element) {
+    /**
+     * Returns last index of specified element.
+     * 
+     * @param E element to be found
+     * @return int index of found element
+     */
+    public int lastIndexOf(E element) {
         int idx = -1;
         for (int i = 0; i<size(); i++) {
             if(getNode(i).getElement().equals(element)){
@@ -163,7 +240,13 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         return idx;
     }
     
-    boolean remove(E element) {
+    /**
+     * Removes first instance of node containing element.
+     * 
+     * @param E element to be removed
+     * @return boolean whether element was found
+     */
+    public boolean remove(E element) {
         if (indexOf(element) != -1) {
             remove(indexOf(element));
             return true;
@@ -172,9 +255,15 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
-    void insertSorted(E element) {
+    /**
+     * Inserts node at its sorted location.
+     * 
+     * @param E element to be inserted
+     * @throws NoSuchElementException when list is empty
+     */
+    public void insertSorted(E element) {
         if(isEmpty()){
-            throw new IndexOutOfBoundsException();
+            throw new NoSuchElementException();
         } else {
             boolean lessThanCurrent = true;
             int idx = 0;
@@ -195,6 +284,12 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Returns first element in list.
+     * 
+     * @return E first element in list
+     * @throws NoSuchElementException when list is empty
+     */
     public E getHead(){
         if(isEmpty()) {
             throw new NoSuchElementException();
@@ -203,14 +298,29 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         }
     }
     
+    /**
+     * Returns whether list is empty.
+     * 
+     * @return boolean is empty
+     */
     public boolean isEmpty(){
-        return head == null && tail == null;
+        return count == 0;
     }
     
+    /**
+     * Returns size of list
+     * 
+     * @return int size of list
+     */
     public int size(){
         return count;
     }
     
+    /**
+     * Returns all elements in list formatted.
+     * 
+     * @return String list to be returned
+     */
     public String toString(){
         Node<E> currentNode = head;
         String str = "";
@@ -225,6 +335,9 @@ public class MyRobustLinkedList<E extends Comparable<E>>
         return str;
     }
    
+    /**
+     * Creates a node object
+     */
    public class Node<E>
     {
         private E element;
