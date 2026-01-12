@@ -20,6 +20,7 @@ public class BinarySearchTree<E extends Comparable<E>>
         } else {
             root.insert(element);
         }
+        count++;
         return true;
     }
     
@@ -48,6 +49,11 @@ public class BinarySearchTree<E extends Comparable<E>>
     
     public int size() {
         return count;
+    }
+    
+    public E[] toArray(){
+        E[] arr = new E[count];
+        root.toString(arr);
     }
     
     public String toString() {
@@ -127,16 +133,25 @@ public class BinarySearchTree<E extends Comparable<E>>
             }
         }
         
-        public toArray
+        public void toArray(E[] arr){
+            if (left != null){
+                left.toArray(arr);
+            }
+            
+            if (right != null){
+                treeString += ", " + right.toString();
+            }
+            return treeString;
+        }
         
         public String toString() {
             String treeString = "";
             if (left != null){
-                treeString += left.toString();
+                treeString += left.toString() + ", ";
             }
             treeString += element + "";
             if (right != null){
-                treeString += right.toString();
+                treeString += ", " + right.toString();
             }
             return treeString;
         }
