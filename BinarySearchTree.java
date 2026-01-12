@@ -133,15 +133,19 @@ public class BinarySearchTree<E extends Comparable<E>>
             }
         }
         
-        public void toArray(E[] arr){
+        public int toArray(E[] arr, int idx){
             if (left != null){
-                left.toArray(arr);
+                left.toArray(arr, idx);
+            } else {
+                arr[idx] = element;
+                idx++;
+                return idx;
+            }
+            arr[idx] = element;
+            if (right != null){
+                right.toArray(arr);
             }
             
-            if (right != null){
-                treeString += ", " + right.toString();
-            }
-            return treeString;
         }
         
         public String toString() {
