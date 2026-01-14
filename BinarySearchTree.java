@@ -136,9 +136,13 @@ public class BinarySearchTree<E extends Comparable<E>>
         public E remove(E element){
             if(left == null){
                 return null;
-            } else if (this.left.getElement().compareTo(element) < 0) {
+            } else if (left.getElement().compareTo(element) > 0) {
+                left.remove(element);
+            } else if (left.getElement().compareTo(element) < 0) {
                 right.remove(element);
-            } else 
+            } else {
+                
+            }
         }
         
         public int toArray(E[] arr, int idx){
