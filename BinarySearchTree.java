@@ -35,6 +35,10 @@ public class BinarySearchTree<E extends Comparable<E>>
         }
     }
     
+    public Iterator<E> iterator(){
+        
+    }
+    
     public E getMin(){
         return root.getMin();
     }
