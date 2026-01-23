@@ -56,8 +56,9 @@ public class BinarySearchTree<E extends Comparable<E>>
     }
     
     public E[] toArray(){
-        E[] arr = new E[count];
-        root.toString(arr);
+        E[] arr = (E[]) new Comparable[count];
+        root.toArray(arr, 0);
+        return arr;
     }
     
     public String toString() {
@@ -136,7 +137,7 @@ public class BinarySearchTree<E extends Comparable<E>>
                 }
             }
         }
-        
+        /*
         public E remove(E element){
             if(left == null){
                 return null;
@@ -148,7 +149,7 @@ public class BinarySearchTree<E extends Comparable<E>>
                 
             }
         }
-        
+        */
         public int toArray(E[] arr, int idx){
             if (left != null){
                 left.toArray(arr, idx);
