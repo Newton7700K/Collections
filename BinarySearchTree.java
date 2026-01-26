@@ -1,185 +1,197 @@
 import java.util.*;
-/**
- * Write a description of class BinarySearchTree here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
-public class BinarySearchTree<E extends Comparable<E>>
-{
+
+public class BinarySearchTree<E extends Comparable<E>> {
     private Node<E> root;
     private int count = 0;
-    
+
     public boolean insert(E element) {
         if (element == null) {
             throw new IllegalArgumentException();
-        } else if (false){ //search(element) equals element
-            return false;
-        } else if (root == null) {
-            root = new Node(element);
+        }
+        if (root == null) {
+            root = new Node<>(element);
         } else {
-            root.insert(element);
+            if (!root.insert(element)) {
+                return false;
+            }
         }
         count++;
         return true;
     }
-    
+
     public E search(E element) {
-        if (isEmpty()){
-            throw new NullPointerException();
-        } else if (element.equals(root.getElement())){
-            return root.getElement();
-        } else {
-            root.search(element);
-            return null;
+        if (isEmpty()) {
+            throw new NoSuchElementException();
         }
+        return root.search(element);
     }
-    
-    public Iterator<E> iterator(){
-        
+
+    public Iterator<E> iterator() {
+        return new BSTIterator(root);
     }
-    
-    public E getMin(){
+
+    public E getMin() {
+        if (root == null) {
+            throw new NoSuchElementException();
+        }
         return root.getMin();
     }
-    
-    public E getMax(){
+
+    public E getMax() {
+        if (root == null) {
+            throw new NoSuchElementException();
+        }
         return root.getMax();
     }
     
+    public int getDepth() {
+        return root.getDepth(root);
+    }
+
     public boolean isEmpty() {
         return count == 0;
     }
-    
+
     public int size() {
         return count;
     }
-    
-    public E[] toArray(){
+
+    public E[] toArray() {
         E[] arr = (E[]) new Comparable[count];
         root.toArray(arr, 0);
         return arr;
-    }
-    
+    } 
+
     public String toString() {
         return root.toString();
     }
     
-    private class Node<E extends Comparable<E>> {
+    private static class Node<E extends Comparable<E>> {
         private E element;
         private Node<E> left;
         private Node<E> right;
-        
-        private Node(E element){
+
+        private Node(E element) {
             this.element = element;
         }
-        
-        private E getElement(){
+
+        private E getElement() {
             return element;
         }
-        
-        private Node<E> getLeft(){
+
+        private Node<E> getLeft() {
             return left;
         }
-        
-        private Node<E> getRight(){
+
+        private Node<E> getRight() {
             return right;
         }
-        
-        private E getMin(){
-            if (getLeft() == null){
+
+        private E getMin() {
+            if (getLeft() == null) {
                 return getElement();
             } else {
                 return left.getMin();
             }
         }
-        
-        private E getMax(){
-            if (getRight() == null){
+
+        private E getMax() {
+            if (getRight() == null) {
                 return getElement();
             } else {
                 return right.getMax();
             }
         }
-        
-        private void insert(E element){
-            if (element.compareTo(this.element) < 0){
-                if (left == null) {
-                    left = new Node(element);
-                } else {
-                    left.insert(element);
-                }
+
+        private int getDepth(Node node) {
+            if (node == null) {
+                return 0;
+            } else if (getDepth(left) > getDepth(right)) {
+                return 1 + getDepth(left);
             } else {
-                if (right == null) {
-                    right = new Node(element);
-                } else {
-                    right.insert(element);
-                }
+                return 1 + getDepth(right);
             }
         }
-        
-        private E search(E element){
-            if (element.compareTo(this.element) < 0) {
-                if(getLeft() == null){
-                    return null;
-                } else if (getLeft().getElement().equals(element)){
-                    return getLeft().getElement();
-                } else {
-                    return getLeft().search(element);
-                }
-            } else {
-                if(getRight() == null){
-                    return null;
-                } else if (getRight().getElement().equals(element)){
-                    return getRight().getElement();
-                } else {
-                    return getRight().search(element);
-                }
-            }
-        }
-        /*
-        public E remove(E element){
-            if(left == null){
-                return null;
-            } else if (left.getElement().compareTo(element) > 0) {
-                left.remove(element);
-            } else if (left.getElement().compareTo(element) < 0) {
-                right.remove(element);
-            } else {
                 
+        private boolean insert(E element) {
+            if (element.compareTo(this.element) < 0) {
+                if (left == null) {
+                    left = new Node<>(element);
+                    return true;
+                } else {
+                    return left.insert(element);
+                }
+            } else if (element.compareTo(this.element) > 0) {
+                if (right == null) {
+                    right = new Node<>(element);
+                    return true;
+                } else {
+                    return right.insert(element);
+                }
             }
+            return false;
         }
-        */
-        public int toArray(E[] arr, int idx){
-            if (left != null){
-                left.toArray(arr, idx);
-            } else {
-                arr[idx] = element;
-                idx++;
-                return idx;
+
+        private E search(E element) {
+            if (element.compareTo(this.element) < 0) {
+                if (left == null) {
+                    return null;
+                }
+                return left.search(element);
+            } else if (element.compareTo(this.element) > 0) {
+                if (right == null) {
+                    return null;
+                }
+                return right.search(element);
             }
-            arr[idx] = element;
-            idx++;
-            if (right != null){
-                right.toArray(arr, idx);
-            } else {
-                arr[idx] = element;
-                idx++;
-                return idx;
-            }
-            
+            return element;
         }
         
+        public int toArray(E[] arr, int idx) {
+            if (left != null) {
+                idx = left.toArray(arr, idx);
+            }
+            arr[idx++] = element;
+            if (right != null) {
+                idx = right.toArray(arr, idx);
+            }
+            return idx;
+        }
+
         public String toString() {
             String treeString = "";
-            if (left != null){
+            
+            if (left != null) {
                 treeString += left.toString() + ", ";
             }
-            treeString += element + "";
-            if (right != null){
+            treeString += element;
+            if (right != null) {
                 treeString += ", " + right.toString();
             }
+            
             return treeString;
+        }
+        
+        
+    }
+
+    class BSTIterator implements Iterator<E> {
+        private Stack<Node<E>> stack;
+
+        private BSTIterator(Node<E> root) {
+            stack = new Stack<>();
+        }
+
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Node<E> node = stack.pop();
+            return node.getElement();
         }
     }
 }
