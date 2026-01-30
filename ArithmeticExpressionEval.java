@@ -47,10 +47,9 @@ public class ArithmeticExpressionEval {
         if(!Applications.checkSyntax(expression)){
             throw new IllegalArgumentException("learn to type brochacho 💀");
         }
-        
-        int idx = 0;
-        while (idx < arr.length) {
-            
+        MyRobustLinkedList list = new MyRobustLinkedList();
+        for(String str: arr){
+            list.add(str);
         }
     }
 
