@@ -1,3 +1,4 @@
+import java.lang.Math;
 
 public class Applications
 {
@@ -55,5 +56,19 @@ public class Applications
             }
         }
         return  stack.top();
+    }
+    
+    public static MyRobustLinkedList<Integer> top20() {
+        MyHeap heap = new MyHeap(1000);
+        
+        for(int i = 0; i < 1000; i++) {
+            heap.add((int) (Math.random()*1000));
+        }
+        
+        for(int i = 0; i <980; i++) {
+            heap.removeMax();
+        }
+        
+        return heap.toString();
     }
 }

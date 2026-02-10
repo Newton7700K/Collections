@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * Write a description of class MyHeap here.
  *
@@ -7,13 +9,16 @@
 public class MyHeap<E extends Comparable<E>>
 {
     // instance variables - replace the example below with your own
-    private int count = 0;
+    private int count;
+    private int isMinHeap; // if positive, is max heap; if negative, is min heap
     private E[] heap;
     
     /**
      * Constructor for objects of class MyHeap
      */
     public MyHeap(int maxSize) {
+        count = 0;
+        isMinHeap = 1;
         heap = (E[]) new Comparable[maxSize];
     }
     
@@ -21,12 +26,16 @@ public class MyHeap<E extends Comparable<E>>
      * Constructor for objects of class MyHeap
      */
     public void add(E element) {
-        int idx = count;
-        while(idx != 0 && element.compareTo(heap[(idx-1)/2])>0) {
-            heap[idx] = heap[(idx-1)/2];
-            idx = (idx-1)/2;
+        int child = count;
+        int parent = (child-1)/2;
+        
+        while(child != 0 && element.compareTo(heap[parent])>0) {
+            heap[child] = heap[parent];
+            child = parent;
+            parent = (child-1)/2;
         }
-        heap[idx] = element;
+        
+        heap[child] = element;
         count++;
     }
     
@@ -37,23 +46,30 @@ public class MyHeap<E extends Comparable<E>>
         return heap[0];
     }
     
-    
-    
     public E removeMax() {
-        int idx = 0;
-        int max = heap[0];
-        heap[idx] = heap[count-1];
-        count--;
-        while (idx*2+1<count && heap[idx*2+1]!=0) {
-            if (heap[idx] > heap[idx*2+1] && heap[idx] > heap[idx*2+2]){
+        if(isEmpty()){
+            throw new NoSuchElementException();
+        } else {
+            int parent = 0;
+            int child;
+            int idx = 0;
+            int max = heap[0];
+            heap[idx] = heap[count-1];
+            count--;
+            while (idx*2+1<count && heap[idx*2+1]!=0) {
                 
-            } else if (heap[idx*2+1] > heap[idx*2+2]) {
-                heap[idx] = heap[idx*2+1];
-                idx = 
+                if (heap[idx] > heap[idx*2+1] && heap[idx] > heap[idx*2+2]){
+                    
+                } else if (heap[idx*2+1] > heap[idx*2+2]) {
+                    heap[idx] = heap[idx*2+1];
+                    idx = e;
+                }
             }
+            return null;
         }
-        return 
     }
+    
+    public boolean isEmpty
     
     /**
      * Constructor for objects of class MyHeap
