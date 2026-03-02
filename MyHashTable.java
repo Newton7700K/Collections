@@ -21,6 +21,12 @@ public class MyHashTable<K,V>
     }
     
     public void put(K key, V value) {
+        Node<K,V> UwU = searchBucket(getHash(key), key);
+        if(UwU != null){
+            UwU.setValue(value);
+        } else {
+            
+        }
         addToBucket(getHash(key), new Node(key, value));
     }
     
@@ -41,13 +47,15 @@ public class MyHashTable<K,V>
         return hash % table.length;
     }
     
-    public Node remove(K key) {
+    public V remove(K key) {
         Node node = table[getHash(key)];
         table[getHash(key)] = null;
         return node;
     }
     
-    public void addToBucket(int bucket, Node newNode){
+    public void addToBucket(int bucket, Node<K,V> newNode){
+        Node<K,V> 
+        while(newNode.getNext() != null)
         newNode.setNext(table[bucket]);
         table[bucket] = newNode;
     }
@@ -69,11 +77,12 @@ public class MyHashTable<K,V>
     public class Node<K,V> {
         private K key;
         private V value;
-        private Node next;
+        private Node<K,V> next;
         
         private Node(K key, V value) {
             this.key = key;
             this.value = value;
+            next = null;
         }
         
         private K getKey(){
@@ -96,7 +105,7 @@ public class MyHashTable<K,V>
             this.next = next;
         }
 
-        private Node getNext() {
+        private Node<K,V> getNext() {
             return next;
         }
         
@@ -107,7 +116,7 @@ public class MyHashTable<K,V>
         
         public String toString() {
             String str = key + "->" + value;
-            Node nextNode = next;
+            Node<K,V> nextNode = next;
             while(nextNode != null){
                 str += "|" + nextNode.getKey() + "->" + nextNode.getValue();
                 nextNode = nextNode.getNext();
