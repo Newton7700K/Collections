@@ -48,9 +48,7 @@ public class MyHashTable<K,V>
     }
     
     public V remove(K key) {
-        Node node = table[getHash(key)];
-        table[getHash(key)] = null;
-        return (V) node.getValue();
+        return removeFromBucket(getHash(key), searchBucket(getHash(key), key)).getValue();
     }
     
     public void addToBucket(int bucket, Node<K,V> newNode){
@@ -60,12 +58,25 @@ public class MyHashTable<K,V>
         table[bucket] = newNode;
     }
     
-    public Node searchBucket(int bucket, K key){
+    public Node<K,V> searchBucket(int bucket, K key){
         Node currentNode = table[bucket];
         while(currentNode != null) {
             if(currentNode.getKey().equals(key)){
                 return currentNode;
             }
+        }
+        return null;
+    }
+    
+    public Node<K,V> removeFromBucket(int bucket, Node<K,V> oldNode){
+        Node currentNode = table[bucket];
+        Node searchNode = searchBucket(bucket, oldNode.getKey());
+        while(currentNode.getNext() != null && currentNode.getNext() != searchNode){
+            if(currentNode.getNext() == searchNode){
+                currentNode.setNext(searchNode.getNext());
+                return searchNode;
+            }
+            currentNode = currentNode.getNext();
         }
         return null;
     }
