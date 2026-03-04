@@ -21,9 +21,9 @@ public class MyHashTable<K,V>
     }
     
     public void put(K key, V value) {
-        Node<K,V> UwU = searchBucket(getHash(key), key);
-        if(UwU != null){
-            UwU.setValue(value);
+        Node<K,V> search = searchBucket(getHash(key), key);
+        if(search != null){
+            search.setValue(value);
         } else {
             
         }
@@ -50,11 +50,11 @@ public class MyHashTable<K,V>
     public V remove(K key) {
         Node node = table[getHash(key)];
         table[getHash(key)] = null;
-        return node;
+        return (V) node.getValue();
     }
     
     public void addToBucket(int bucket, Node<K,V> newNode){
-        Node<K,V> 
+        Node<K,V> node = new Node<K,V>(newNode.getKey(), newNode.getValue());
         while(newNode.getNext() != null)
         newNode.setNext(table[bucket]);
         table[bucket] = newNode;
