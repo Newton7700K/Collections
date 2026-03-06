@@ -134,7 +134,7 @@ public class MyHashTable<K,V>
     
     public Node<K,V> removeFromBucket(int bucket, Node<K,V> oldNode){
         if(table[bucket] == null) {
-            return;
+            return null;
         } else {
             Node<K,V> currentNode = table[bucket];
             Node<K,V> searchNode = searchBucket(bucket, oldNode.getKey());
