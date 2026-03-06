@@ -1,3 +1,4 @@
+import java.util.*;
 import java.lang.Math;
 import java.util.Arrays;
 /**
@@ -11,6 +12,7 @@ public class MyHashTable<K,V>
     
     private Node[] table;
     private int count;
+    private double loadFactor;
     
     /**
      * Constructor for objects of class MyHashTable
@@ -18,16 +20,28 @@ public class MyHashTable<K,V>
     public MyHashTable() {
         table = new Node[10];
         count = 0;
+        loadFactor = 0.7;
     }
     
     public void put(K key, V value) {
-        Node<K,V> search = searchBucket(getHash(key), key);
-        if(search != null){
-            search.setValue(value);
+        if(key == null || value == null){
+            throw new NullPointerException();
         } else {
+            int bucket = getHash(key);
+            Node<K,V> search = searchBucket(bucket, key);
             
+            if(search != null){
+                search.setValue(value);
+            } else {
+                addToBucket(bucket, new Node<K, V>(key, value));
+                count++;
+                
+                if (count > loadFactor * table.length) {
+                    expandHashTable();
+                }
+            }
         }
-        addToBucket(getHash(key), new Node(key, value));
+
     }
     
     public boolean isEmpty() {
@@ -39,7 +53,19 @@ public class MyHashTable<K,V>
     }
     
     public V get(K key) {
-        return (V) table[getHash(key)].getValue();
+        if (key == null) {
+            throw new NullPointerException();
+        } else {
+            int bucket = getHash(key);
+            Node<K, V> search = searchBucket(bucket, key);
+
+            if (search == null) {
+                return null;
+            } else {
+                return search.getValue();
+            }
+        }
+
     }
     
     private int getHash(K key) {
@@ -48,37 +74,86 @@ public class MyHashTable<K,V>
     }
     
     public V remove(K key) {
-        return removeFromBucket(getHash(key), searchBucket(getHash(key), key)).getValue();
+        if (key == null) {
+            throw new NullPointerException();
+        } else {
+            int bucket = getHash(key);
+            Node<K, V> search = searchBucket(bucket, key);
+
+            if (search == null) {
+                return null;
+            } else {
+                V value = search.getValue();
+                removeFromBucket(bucket, search);
+                search.clear();
+                count--;
+                return value;
+            }
+        }
     }
+
+    
+    private void expandHashTable() {
+        Node<K, V>[] oldTable = table;
+        table = (Node<K, V>[]) new Node[oldTable.length * 2];
+
+        for (int i = 0; i < oldTable.length; i++) {
+            Node<K, V> currentNode = oldTable[i];
+
+            while (currentNode != null) {
+                Node<K, V> nextNode = currentNode.getNext();
+                int newBucket = Math.abs(currentNode.getKey().hashCode()) % table.length;
+
+                currentNode.setNext(table[newBucket]);
+                table[newBucket] = currentNode;
+
+                currentNode = nextNode;
+            }
+        }
+    }
+
     
     public void addToBucket(int bucket, Node<K,V> newNode){
-        Node<K,V> node = new Node<K,V>(newNode.getKey(), newNode.getValue());
-        while(newNode.getNext() != null)
-        newNode.setNext(table[bucket]);
-        table[bucket] = newNode;
+        if(table[bucket] == null) {
+            table[bucket] = newNode;
+        } else {
+            newNode.setNext(table[bucket]);
+            table[bucket] = newNode;
+        }
     }
     
     public Node<K,V> searchBucket(int bucket, K key){
-        Node currentNode = table[bucket];
+        Node<K,V> currentNode = table[bucket];
         while(currentNode != null) {
             if(currentNode.getKey().equals(key)){
                 return currentNode;
             }
+            currentNode = currentNode.getNext();
         }
         return null;
     }
     
     public Node<K,V> removeFromBucket(int bucket, Node<K,V> oldNode){
-        Node currentNode = table[bucket];
-        Node searchNode = searchBucket(bucket, oldNode.getKey());
-        while(currentNode.getNext() != null && currentNode.getNext() != searchNode){
-            if(currentNode.getNext() == searchNode){
+        if(table[bucket] == null) {
+            throw new NoSuchElementException();
+        } else {
+            Node<K,V> currentNode = table[bucket];
+            Node<K,V> searchNode = searchBucket(bucket, oldNode.getKey());
+            
+            if (currentNode == searchNode) {
                 currentNode.setNext(searchNode.getNext());
                 return searchNode;
             }
-            currentNode = currentNode.getNext();
+            
+            while(currentNode.getNext() != null && currentNode.getNext() != searchNode){
+                if(currentNode.getNext() == searchNode){
+                    currentNode.setNext(searchNode.getNext());
+                    return searchNode;
+                }
+                currentNode = currentNode.getNext();
+            }
+            return null;
         }
-        return null;
     }
     
     public String toString() {
