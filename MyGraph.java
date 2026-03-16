@@ -18,31 +18,44 @@ public class MyGraph
     public void addVertex(String label) {
         if(label == null){
             throw new NullPointerException();
-        }
-        
-        if(vertices.get(label) != null){
+        } else if (vertices.get(label) != null) {
             throw new IllegalArgumentException();
+        } else {
+            vertices.put(label, new Vertex(label));
         }
-        
-        vertices.put(label, new Vertex(label));
     }
     
     public void addEdge(String fromLabel,  String toLabel) {
         if(fromLabel == null || toLabel == null) {
             throw new NullPointerException();
-        }
-        
-        if(vertices.get(fromLabel) == null || vertices.get(toLabel) == null) {
+        } else if(vertices.get(fromLabel) == null || vertices.get(toLabel) == null) {
             throw new NoSuchElementException();
+        } else if(vertices.get(fromLabel).getNeighbors().contains(vertices.get(toLabel))){
+            throw new IllegalArgumentException();
+        } else {
+            vertices.get(fromLabel).addNeighbor(vertices.get(toLabel));
         }
+    }
+    
+    public ArrayList<String> depthFirstTraversal(String fromLabel) {
+        
     }
     
     public class Vertex {
         private String label;
-        private ArrayList<Vertex> neighbors = new ArrayList<>();
+        private ArrayList<Vertex> neighbors;
 
         private Vertex(String label) {
             this.label = label;
+            neighbors = new ArrayList<>();
+        }
+        
+        private void addNeighbor(Vertex add){
+            neighbors.add(add);
+        }
+        
+        private ArrayList<Vertex> getNeighbors(){
+            return neighbors;
         }
         
         public String toString() {
