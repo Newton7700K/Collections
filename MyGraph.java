@@ -38,7 +38,19 @@ public class MyGraph
     }
     
     public ArrayList<String> depthFirstTraversal(String fromLabel) {
-        
+        ArrayList<String> visited = new ArrayList<String>();
+        visited.add(fromLabel);
+        depthFirstTraversal(visited, fromLabel);
+        return visited;
+    } 
+    
+    private void depthFirstTraversal(ArrayList<String> visited, String current){
+        for(Vertex neighbor: vertices.get(current).getNeighbors()){
+            if(!visited.contains(neighbor.getLabel())){
+                visited.add(neighbor.getLabel());
+                depthFirstTraversal(visited, neighbor.getLabel());
+            }
+        }
     }
     
     public class Vertex {
@@ -48,6 +60,10 @@ public class MyGraph
         private Vertex(String label) {
             this.label = label;
             neighbors = new ArrayList<>();
+        }
+        
+        private String getLabel(){
+            return label;
         }
         
         private void addNeighbor(Vertex add){
