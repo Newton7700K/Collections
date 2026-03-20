@@ -53,6 +53,20 @@ public class MyGraph
         }
     }
     
+    private ArrayList<String> breadthFirstTraversal(String fromLabel) {
+        ArrayList<String> visited = new ArrayList<String>();
+        visited.add(fromLabel);
+        MyQueue<String> queue = new MyQueue<String>();
+        while(!queue.isEmpty()){
+            for(String  : vertices.get(current).getNeighbors()){
+                if(!visited.contains(neighbor.getLabel())){
+                    visited.add(neighbor.getLabel());
+                    
+                }
+            }
+        }
+    }
+    
     public class Vertex {
         private String label;
         private ArrayList<Vertex> neighbors;
