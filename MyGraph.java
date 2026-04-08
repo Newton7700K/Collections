@@ -58,7 +58,7 @@ public class MyGraph
         visited.add(fromLabel);
         MyQueue<String> queue = new MyQueue<String>();
         while(!queue.isEmpty()){
-            for(String  : vertices.get(current).getNeighbors()){
+            for(String neighbor : vertices.get(current).getNeighbors()){
                 if(!visited.contains(neighbor.getLabel())){
                     visited.add(neighbor.getLabel());
                     
