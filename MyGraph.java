@@ -10,9 +10,11 @@ import java.util.*;
 public class MyGraph
 {
     private MyHashTable<String, Vertex> vertices;
+    private int count;
     
     public MyGraph() {
        vertices = new MyHashTable<String, Vertex>();
+       count = 0;
     }    
     
     public void addVertex(String label) {
@@ -23,6 +25,7 @@ public class MyGraph
         } else {
             vertices.put(label, new Vertex(label));
         }
+        count++;
     }
     
     public void addEdge(String fromLabel,  String toLabel) {
@@ -53,18 +56,26 @@ public class MyGraph
         }
     }
     
-    private ArrayList<String> breadthFirstTraversal(String fromLabel) {
+    public ArrayList<String> breadthFirstTraversal(String fromLabel) {
         ArrayList<String> visited = new ArrayList<String>();
         visited.add(fromLabel);
         MyQueue<String> queue = new MyQueue<String>();
-        while(!queue.isEmpty()){
-            for(String neighbor : vertices.get(current).getNeighbors()){
+        while(visited.size() != count){
+            for(Vertex neighbor : vertices.get(queue.dequeue()).getNeighbors()){
                 if(!visited.contains(neighbor.getLabel())){
                     visited.add(neighbor.getLabel());
-                    
                 }
             }
         }
+        return visited;
+    }
+    
+    public int distance(String fromLabel, String toLabel) {
+        return 1;
+    }
+    
+    public String toString(){
+        return vertices.toString();
     }
     
     public class Vertex {
