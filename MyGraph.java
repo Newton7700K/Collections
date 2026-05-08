@@ -60,10 +60,12 @@ public class MyGraph
         ArrayList<String> visited = new ArrayList<String>();
         visited.add(fromLabel);
         MyQueue<String> queue = new MyQueue<String>();
+        queue.enqueue(fromLabel);
         while(visited.size() != count){
             for(Vertex neighbor : vertices.get(queue.dequeue()).getNeighbors()){
                 if(!visited.contains(neighbor.getLabel())){
                     visited.add(neighbor.getLabel());
+                    queue.enqueue(neighbor.getLabel());
                 }
             }
         }
@@ -71,11 +73,49 @@ public class MyGraph
     }
     
     public int distance(String fromLabel, String toLabel) {
+        int distance = 0;
+        MyHashTable<String,String> visited = new MyHashTable<String,String>();
+        visited.put(fromLabel,fromLabel);
+        MyQueue<TraversalNode> queue = new MyQueue<TraversalNode>();
+        queue.enqueue(new TraversalNode(fromLabel,distance));
+        
+        while(visited.size() != count){
+            distance++;
+            for(Vertex neighbor : vertices.get(queue.dequeue().getLabel()).getNeighbors()){
+                if(visited.get(neighbor.getLabel())!=null){
+                    TraversalNode tNode = new TraversalNode(neighbor.getLabel(),distance);
+                    queue.enqueue(tNode);
+                    visited.put(tNode.getLabel(),neighbor.getLabel());
+                }
+            }
+        }
         return 1;
+    }
+    
+    public ArrayList<String> shortestPath(String fromLabel, String toLabel){
+        return null;
     }
     
     public String toString(){
         return vertices.toString();
+    }
+    
+    public class TraversalNode {
+        private String label;
+        private int distance;
+        
+        private TraversalNode(String label, int distance){
+            this.label = label;
+            this.distance = distance;
+        }
+        
+        private String getLabel(){
+            return label;
+        }
+        
+        private int getDistance(){
+            return distance;
+        }
     }
     
     public class Vertex {
